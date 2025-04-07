@@ -1,0 +1,117 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Stopwatch</title>
+  <style>
+    body {
+      margin: 0;
+      padding: 0;
+      font-family: 'Segoe UI', sans-serif;
+      background: linear-gradient(to bottom right, #8e44ad, #3498db);
+      height: 100vh;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+    }
+    .container {
+      text-align: center;
+      background-color: white;
+      padding: 2rem;
+      border-radius: 1rem;
+      box-shadow: 0 8px 16px rgba(0,0,0,0.2);
+    }
+    .time-display {
+      font-size: 2rem;
+      margin-bottom: 1.5rem;
+      background: #3498db;
+      color: white;
+      padding: 0.5rem 1rem;
+      border-radius: 0.5rem;
+      display: inline-block;
+      font-weight: bold;
+    }
+    .buttons button {
+      background-color: #2980b9;
+      color: white;
+      border: none;
+      padding: 0.6rem 1.2rem;
+      margin: 0 0.3rem;
+      font-size: 1rem;
+      border-radius: 0.3rem;
+      cursor: pointer;
+      transition: background 0.3s;
+    }
+    .buttons button:hover {
+      background-color: #1f6391;
+    }
+    h2 {
+      margin-top: 1.5rem;
+      color: #333;
+    }
+    .label {
+      margin-top: 0.5rem;
+      font-size: 0.9rem;
+      color: #666;
+    }
+  </style>
+</head>
+<body>
+  <div class="container">
+    <div class="time-display" id="display">00:00:00.000</div>
+    <div class="buttons">
+      <button onclick="start()">Start</button>
+      <button onclick="pause()">Pause</button>
+      <button onclick="reset()">Reset</button>
+    </div>
+    <h2>STOPWATCH</h2>
+    <div class="label">HTML, CSS & Javascript</div>
+  </div>
+
+  <script>
+    let startTime = 0;
+    let elapsedTime = 0;
+    let timerInterval;
+
+    function timeToString(time) {
+      let diffInHrs = time / 3600000;
+      let hh = Math.floor(diffInHrs);
+
+      let diffInMin = (diffInHrs - hh) * 60;
+      let mm = Math.floor(diffInMin);
+
+      let diffInSec = (diffInMin - mm) * 60;
+      let ss = Math.floor(diffInSec);
+
+      let diffInMs = (diffInSec - ss) * 1000;
+      let ms = Math.floor(diffInMs);
+
+      let formattedHH = hh.toString().padStart(2, '0');
+      let formattedMM = mm.toString().padStart(2, '0');
+      let formattedSS = ss.toString().padStart(2, '0');
+      let formattedMS = ms.toString().padStart(3, '0');
+
+      return `${formattedHH}:${formattedMM}:${formattedSS}.${formattedMS}`;
+    }
+
+    function start() {
+      startTime = Date.now() - elapsedTime;
+      timerInterval = setInterval(() => {
+        elapsedTime = Date.now() - startTime;
+        document.getElementById("display").innerHTML = timeToString(elapsedTime);
+      }, 10);
+    }
+
+    function pause() {
+      clearInterval(timerInterval);
+    }
+
+    function reset() {
+      clearInterval(timerInterval);
+      document.getElementById("display").innerHTML = "00:00:00.000";
+      elapsedTime = 0;
+    }
+  </script>
+</body>
+</html>
